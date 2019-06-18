@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import api from '../services/api';
 import io from 'socket.io-client';
 
@@ -20,22 +20,22 @@ class Feed extends Component {
 
         const response = await api.get('posts');
 
-        this.setState({feed: response.data})
+        this.setState({ feed: response.data })
     }
 
     registerToSocket = () => {
         const socket = io('http://localhost:3333');
 
         socket.on('post', newPost => {
-            this.setState( {feed: [newPost, ...this.state.feed]} )
+            this.setState({ feed: [newPost, ...this.state.feed] })
         })
 
         socket.on('like', likePost => {
-            this.setState( {
+            this.setState({
                 feed: this.state.feed.map(
                     post => post._id === likePost._id ? likePost : post
                 )
-            } )
+            })
         })
     }
 
